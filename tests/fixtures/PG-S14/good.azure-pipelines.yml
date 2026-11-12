@@ -1,0 +1,11 @@
+trigger:
+- main
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Npm@1
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    command: publish
+    publishEndpoint: npmjs

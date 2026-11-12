@@ -1,0 +1,15 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: npm audit --audit-level=high
+- task: PublishTestResults@2
+  continueOnError: true
+  inputs:
+    testResultsFiles: '**/*.trx'
+- script: npx prettier --check .
+  displayName: Check formatting
+  continueOnError: true

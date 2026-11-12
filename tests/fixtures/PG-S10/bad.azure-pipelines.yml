@@ -1,0 +1,15 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: npm audit --audit-level=high || true
+- task: wiz@0
+  inputs:
+    command: image
+    succeedOnFailures: true
+- script: trivy image app:1.0
+  displayName: Trivy scan
+  continueOnError: true

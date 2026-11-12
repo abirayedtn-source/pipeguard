@@ -1,0 +1,12 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+- name: appName
+  type: string
+steps:
+- script: |
+    echo "Creating ${{ parameters.appName }}"

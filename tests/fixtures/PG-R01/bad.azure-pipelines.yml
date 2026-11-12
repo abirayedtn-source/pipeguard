@@ -1,0 +1,14 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+- deployment: Web
+  environment: test
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - script: echo deploy

@@ -1,0 +1,9 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+- script: npm ci

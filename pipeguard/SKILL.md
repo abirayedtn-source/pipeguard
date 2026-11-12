@@ -20,6 +20,23 @@ Read each file completely before reporting. Never report a line number you have 
 
 Each finding gets a rule ID, a severity (Critical, High, Medium, Low) and a file and line.
 
+### Start with the scanner
+
+`scripts/pipeguard_scan.py` applies the mechanical part of the rules below and returns exact files and line numbers. When Python 3 and PyYAML are available, run it before reading:
+
+```bash
+python scripts/pipeguard_scan.py <file or folder> --format json --fail-on none --hosting <github|azure-repos|unknown>
+```
+
+Then use its output as a starting point, not as the report:
+
+- Open every finding in its file and read the quoted line in context. Drop it if a known false positive applies (section 3), and adjust the severity to the context.
+- Entries with `"housekeeping": true` go to the Housekeeping section. Entries under `checks` go to "To check in Azure DevOps" or "Not audited".
+- The scanner covers 19 of the 29 rules. It does not judge PG-S09, PG-S11, PG-S12, PG-R03, PG-R05, PG-R06, PG-R07, PG-C02, PG-C03 or PG-C04, and it only lists self-hosted pools for PG-S07. It also misses what needs understanding rather than matching: a secret written to a file and then printed, a mutable `latest` tag deployed through a variable, a deploy script with an unusual name. Read the files for those.
+- A script whose name suggests a deployment (`deploy.sh`, `npm run release`) is reported as Medium because the scanner is guessing. Confirm what the script does before keeping it.
+
+If the scanner cannot run, say so in one line and apply every rule by reading. Do not install packages without asking.
+
 ### Security
 
 | ID | Check | Default severity |

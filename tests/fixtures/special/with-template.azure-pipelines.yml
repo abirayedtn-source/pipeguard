@@ -1,0 +1,10 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+jobs:
+- job: Release
+  timeoutInMinutes: 10
+  steps:
+  - template: templates/publish-steps.yml

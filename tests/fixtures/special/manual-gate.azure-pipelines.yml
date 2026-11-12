@@ -1,0 +1,25 @@
+trigger:
+- main
+pr: none
+stages:
+- stage: Approve
+  jobs:
+  - job: Wait
+    pool: server
+    steps:
+    - task: ManualValidation@0
+      inputs:
+        notifyUsers: team@example.com
+        onTimeout: 'resume'
+- stage: Ship
+  dependsOn: Approve
+  jobs:
+  - job: Deploy
+    timeoutInMinutes: 10
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: conn
+        appName: shop

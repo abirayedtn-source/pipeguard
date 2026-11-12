@@ -1,0 +1,10 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  sqlPassword: 'Tr0ub4dor-3-horse-battery'
+steps:
+- script: echo build
