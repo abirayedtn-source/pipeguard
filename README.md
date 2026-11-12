@@ -4,17 +4,21 @@ A Claude skill that audits Azure DevOps YAML pipelines for security, reliability
 
 ## What it checks
 
-25 rules in three groups:
+29 rules in three groups:
 
-- **Security (PG-S)**: plain-text secrets, script injection through parameters and variables, exposed `System.AccessToken`, production deployments with no approval gate, unpinned external code, fork pull requests with access to secrets, and more.
-- **Reliability (PG-R)**: missing timeouts, unversioned tasks, deployments with no rollback, steps that cannot be re-run safely.
+- **Security (PG-S)**: plain-text secrets, script injection through parameters and variables, exposed `System.AccessToken`, production deployments with no approval gate, unpinned external code, untrusted pull requests reaching secrets or self-hosted agents, deploy steps that also run on pull requests, and more.
+- **Reliability (PG-R)**: unversioned tasks, deployments with no rollback, steps that cannot be re-run safely, retired agent images.
 - **Cost and speed (PG-C)**: missing caches, full clones, jobs that could run in parallel.
 
 The full list is in [`pipeguard/SKILL.md`](pipeguard/SKILL.md).
 
 ## Example
 
-[`examples/vulnerable-pipeline.yml`](examples/vulnerable-pipeline.yml) is a deliberately flawed pipeline. [`examples/sample-report.md`](examples/sample-report.md) shows the report PipeGuard produces for it: 8 findings, each with the offending lines, the risk, and the fix.
+[`examples/vulnerable-pipeline.yml`](examples/vulnerable-pipeline.yml) is a deliberately flawed pipeline. [`examples/sample-report.md`](examples/sample-report.md) shows the report PipeGuard produces for it: each finding comes with the offending lines, the risk, and the fix.
+
+## How the rules were tuned
+
+The rules were checked against 45 public Azure DevOps pipelines sampled from GitHub. That review reshaped several of them: most real findings did not use the obvious keyword (a scanner switched off with its own option rather than `continueOnError`, a remote script run through `bash <(curl ...)` rather than `curl | bash`), and two rules fired on almost every pipeline and are now grouped as housekeeping.
 
 ## Install
 

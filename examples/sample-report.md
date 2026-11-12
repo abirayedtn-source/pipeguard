@@ -6,7 +6,7 @@ This is the kind of report PipeGuard produces for the demo pipeline in this fold
 
 **This pipeline should not deploy to production as it stands: it holds a secret in plain text and lets anyone who can queue it run arbitrary commands.**
 
-1 Critical, 4 High, 2 Medium, 1 Low.
+1 Critical, 4 High, 1 Medium, plus 2 housekeeping items.
 
 ## Findings
 
@@ -107,22 +107,16 @@ The token stays in the Git configuration while the remote script (line 22) and `
 
 High-severity vulnerabilities are reported and then ignored. Fix: remove `continueOnError: true`.
 
-### [Medium] PG-R01: no timeout (`vulnerable-pipeline.yml:18`)
+## Housekeeping
 
-A hanging deploy script holds the agent until the default limit. Fix: set `timeoutInMinutes` on the job (included in the PG-S05 fix).
-
-### [Low] PG-C01: no dependency cache (`vulnerable-pipeline.yml:25`)
-
-```yaml
-- script: npm install && npm run build
-```
-
-Every run downloads all packages again. Fix: add a `Cache@2` step keyed on `package-lock.json` and use `npm ci`.
+- **PG-R01, no timeout** (`vulnerable-pipeline.yml:18`): a hanging deploy script holds the agent until the default limit. Set `timeoutInMinutes` on the job (included in the PG-S05 fix).
+- **PG-C01, no dependency cache** (`vulnerable-pipeline.yml:25`): every run downloads all packages again. Add a `Cache@2` step keyed on `package-lock.json` and use `npm ci`.
 
 ## To check in Azure DevOps
 
 - **Environment approvals**: once the deploy uses an environment, confirm approvals are configured on the production one (Pipelines > Environments).
 - **Branch policies on `main`**: every push deploys, so confirm `main` requires a pull request.
+- **Pull request builds** (PG-S14): the deploy step has no condition excluding pull requests. If this repository is on GitHub, or a build validation policy runs this pipeline, a pull request would deploy. Add `pr: none` or a branch condition on the deploy.
 
 ## Not audited
 
