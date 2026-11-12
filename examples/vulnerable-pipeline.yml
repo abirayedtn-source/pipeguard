@@ -1,0 +1,35 @@
+# Deliberately vulnerable pipeline used to demonstrate PipeGuard. Do not use.
+trigger:
+- main
+
+parameters:
+- name: targetEnv
+  displayName: Target environment
+  type: string
+  default: staging
+
+variables:
+  storageKey: 'EXAMPLE-NOT-A-REAL-KEY-0000000000'
+  appName: contoso-shop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- script: curl -sSL https://example.com/install-tools.sh | bash
+  displayName: Install tools
+
+- script: npm install && npm run build
+  displayName: Build
+
+- script: npm audit --audit-level=high
+  displayName: Dependency audit
+  continueOnError: true
+
+- script: |
+    echo "Deploying $(appName) to ${{ parameters.targetEnv }}"
+    ./deploy.sh --env "${{ parameters.targetEnv }}" --storage-key "$(storageKey)"
+  displayName: Deploy
