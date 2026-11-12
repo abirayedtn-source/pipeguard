@@ -1,0 +1,21 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Deploy
+  jobs:
+  - deployment: Web
+    environment: production
+    timeoutInMinutes: 20
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: prod-connection
+              appName: shop

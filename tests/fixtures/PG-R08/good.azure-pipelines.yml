@@ -1,0 +1,10 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    git add docs/generated
+    git commit -m "generated"

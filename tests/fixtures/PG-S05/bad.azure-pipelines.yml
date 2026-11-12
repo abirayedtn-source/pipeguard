@@ -1,0 +1,11 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: prod-connection
+    appName: shop

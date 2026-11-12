@@ -14,7 +14,7 @@ This is the kind of report PipeGuard produces for the demo pipeline in this fold
 
 ```yaml
 variables:
-  storageKey: 'EXAMPLE-NOT-A-REAL-KEY-0000000000'
+  storageKey: 'Zm9vYmFyYmF6cXV4MTIzNDU2Nzg5MGFiY2RlZg=='  # fake value for the demo
 ```
 
 Anyone with read access to the repository has the key, and it stays in the Git history after removal. Line 34 also passes it as a command-line argument, where it can show up in process listings and logs.

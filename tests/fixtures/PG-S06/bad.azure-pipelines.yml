@@ -1,0 +1,13 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: bash <(curl -s https://example.com/install.sh)
+- script: |
+    curl -O https://example.com/main/setup.sh
+    chmod +x setup.sh
+    sudo ./setup.sh
+- script: npm install -g typescript

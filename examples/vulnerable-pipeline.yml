@@ -9,7 +9,7 @@ parameters:
   default: staging
 
 variables:
-  storageKey: 'EXAMPLE-NOT-A-REAL-KEY-0000000000'
+  storageKey: 'Zm9vYmFyYmF6cXV4MTIzNDU2Nzg5MGFiY2RlZg=='  # fake value for the demo
   appName: contoso-shop
 
 pool:

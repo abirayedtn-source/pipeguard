@@ -1,0 +1,17 @@
+trigger:
+- '*'
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Production
+  jobs:
+  - deployment: Web
+    environment: production
+    timeoutInMinutes: 20
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo deploy

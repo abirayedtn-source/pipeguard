@@ -1,0 +1,8 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: dotnet nuget push pkg.nupkg -k $(nugetApiKey) -s https://example.org/feed

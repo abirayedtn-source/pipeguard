@@ -1,0 +1,17 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+- name: appName
+  type: string
+- name: region
+  type: string
+  values: [westeurope, northeurope]
+steps:
+- script: |
+    echo "Creating $APP_NAME in ${{ parameters.region }}"
+  env:
+    APP_NAME: ${{ parameters.appName }}

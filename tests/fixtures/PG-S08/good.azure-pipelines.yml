@@ -1,0 +1,17 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+- name: connection
+  type: string
+  values: [dev-connection, test-connection]
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: ${{ parameters.connection }}
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: az account show

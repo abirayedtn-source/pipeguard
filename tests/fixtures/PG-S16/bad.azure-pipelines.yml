@@ -1,0 +1,12 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: AzureKeyVault@2
+  inputs:
+    azureSubscription: conn
+    KeyVaultName: kv-app
+    SecretsFilter: '*'

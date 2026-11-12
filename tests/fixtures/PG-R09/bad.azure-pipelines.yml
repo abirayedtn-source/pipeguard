@@ -1,0 +1,6 @@
+trigger:
+- main
+pool:
+  vmImage: 'Ubuntu-16.04'
+steps:
+- script: echo build

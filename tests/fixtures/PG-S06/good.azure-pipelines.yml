@@ -1,0 +1,11 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: npm install -g typescript@5.4.5
+- script: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.2.0
+- script: pip install -r requirements.txt
+- script: git clone --branch v1.2.0 https://example.com/org/repo.git

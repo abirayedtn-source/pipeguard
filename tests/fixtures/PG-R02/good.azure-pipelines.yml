@@ -1,0 +1,10 @@
+trigger:
+- main
+pr: none
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: CopyFiles@2
+  inputs:
+    Contents: '**'
